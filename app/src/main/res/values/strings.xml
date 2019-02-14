@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PureHost</string>
+    <string name="action_settings">Settings</string>
+    <string name="my_site"><a href="http://nicelee.top">nicelee.top</a></string>
+</resources>

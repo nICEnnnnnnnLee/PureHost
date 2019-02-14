@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DNS/Host 调试"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/textMySite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/my_site"
+        android:autoLink="all"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="2dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="23dp">
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Start" />
+        <Button
+            android:id="@+id/btnEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btnStart"
+            android:text="End" />
+
+    </RelativeLayout >
+
+    <EditText
+        android:id="@+id/dnsConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="2dp"
+        android:textSize="20sp"
+        android:gravity="top|left"
+        android:background="@drawable/edit_bg"
+        android:hint="请输入首选DNS..."
+        />
+
+    <EditText
+        android:id="@+id/dnsConfig2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="2dp"
+        android:textSize="20sp"
+        android:gravity="top|left"
+        android:background="@drawable/edit_bg"
+        android:hint="请输入备选DNS..."
+        />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp">
+        <Button
+            android:id="@+id/btnDNSSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DNS保护" />
+        <Button
+            android:id="@+id/btnDNSClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btnDNSSet"
+            android:text="DNS还原" />
+    </RelativeLayout >
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="13dp">
+
+        <Button
+            android:id="@+id/btnHostRead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Host保护" />
+
+        <Button
+            android:id="@+id/btnHostWrite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btnHostRead"
+            android:text="Host更改" />
+
+    </RelativeLayout >
+  <!--  <TextView
+        android:id="@+id/hostConfig"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:singleLine="false"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        /> -->
+    <EditText
+        android:id="@+id/hostConfig"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="2dp"
+        android:textSize="20sp"
+        android:gravity="top|left"
+        android:scrollbars="vertical"
+        android:background="@drawable/edit_bg" />
+        <!-- android:background="@null" -->
+
+
+
+</LinearLayout>
