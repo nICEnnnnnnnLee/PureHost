@@ -29,8 +29,10 @@ import top.nicelee.purehost.MainActivity;
 public class ConfigReader {
 	final static Pattern patternConfig = Pattern.compile("^[ ]*([0-9]+.[0-9]+.[0-9]+.[0-9]+) ([^ ]+.*$)");
 	final static Pattern patternDNS = Pattern.compile(":[ ]*\\[([0-9]+.[0-9]+.[0-9]+.[0-9]+)\\]");
+	final public static Pattern patternRootDomain = Pattern.compile("([^\\.]+\\.[^\\.]+)$");
     // 记录本地host解析表
     public static HashMap<String, String>  domainIpMap = new HashMap<>();
+	public static HashMap<String, String>  rootDomainIpMap = new HashMap<>();
 	public static List<String> dnsList = new ArrayList<String>();
 
 	public static List<String> initDNS(Context context){
@@ -109,7 +111,26 @@ public class ConfigReader {
 			File file = new File(folder, "host");
 			//System.out.println(MainActivity.path);
 			buWriter = new BufferedWriter(new FileWriter(file, false));
-            buWriter.write(textHost.getText().toString());
+			buWriter.write(textHost.getText().toString());
+			buWriter.flush();
+		}catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				buWriter.close();
+			} catch (Exception e) {
+			}
+		}
+	}
+
+	public static void writeHost(String str) {
+		BufferedWriter buWriter = null;
+		try {
+			File folder = new File(MainActivity.path);
+			File file = new File(folder, "host");
+			//System.out.println(MainActivity.path);
+			buWriter = new BufferedWriter(new FileWriter(file, false));
+			buWriter.write(str);
 			buWriter.flush();
 		}catch (Exception e){
 			e.printStackTrace();
@@ -157,7 +178,13 @@ public class ConfigReader {
 				Matcher matcher = patternConfig.matcher(config);
 				if (matcher.find()) {
 					//System.setProperty(matcher.group(1), matcher.group(2).trim());
-					domainIpMap.put(matcher.group(2), matcher.group(1).trim());
+					if(matcher.group(2).startsWith("*.")){
+						rootDomainIpMap.put(matcher.group(2).replace("*.","") ,matcher.group(1).trim());
+						//System.out.printf("设置查询的地址根目录是%s \r\n", matcher.group(2).replace("*.",""));
+					}else{
+						domainIpMap.put(matcher.group(2), matcher.group(1).trim());
+					}
+
 					System.out.printf("  key-->value:  %s --> %s\r\n", matcher.group(2), matcher.group(1));
 				}
 			}

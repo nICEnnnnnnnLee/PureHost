@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.regex.Matcher;
 
 import top.nicelee.purehost.vpn.config.ConfigReader;
 import top.nicelee.purehost.vpn.dns.DnsPacket;
@@ -216,10 +217,23 @@ public class LocalVpnService extends VpnService implements Runnable {
                         DnsPacket dnsPacket = DnsPacket.FromBytes(m_DNSBuffer);
                         //Short dnsId = dnsPacket.Header.getID();
 
+                        boolean isNeedPollution = false;
                         Question question = dnsPacket.Questions[0];
                         //System.out.printf("DNS 查询的地址是%s \r\n", question.Domain);
                         String ipAddr = ConfigReader.domainIpMap.get(question.Domain);
                         if (ipAddr != null) {
+                            isNeedPollution = true;
+                        }else{
+                            Matcher matcher = ConfigReader.patternRootDomain.matcher(question.Domain);
+                            if(matcher.find()){
+                                //System.out.printf("DNS 查询的地址根目录是%s \r\n", matcher.group(1));
+                                ipAddr = ConfigReader.rootDomainIpMap.get(matcher.group(1));
+                                if (ipAddr != null){
+                                    isNeedPollution = true;
+                                }
+                            }
+                        }
+                        if(isNeedPollution){
                             createDNSResponseToAQuery(udpHeader.m_Data, dnsPacket, ipAddr);
 
                             ipHeader.setTotalLength(20 + 8 + dnsPacket.Size);

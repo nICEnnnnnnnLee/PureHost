@@ -18,5 +18,22 @@
 * 功能预览（将[百度](https://www.baidu.com)指向了[nicelee.top](http://nicelee.top)）：
 ![](https://raw.githubusercontent.com/nICEnnnnnnnLee/PureHost/master/view/function-preview.jpg)
 
+## 更新日志
+* v2.0
+    * 增加基础域名匹配
+    e.g. host文件
+    ```
+    127.0.0.1 *.test.com
+    127.0.0.2 test.test.com
+    ```
+    那么，
+    ```
+    test.test.com --> 127.0.0.2
+    test.com --> 127.0.0.1
+    123.test.com --> 127.0.0.1
+    xxx.test.com --> 127.0.0.1
+    ```
+* v1.0
+    * 初版
 ## LICENSE
 Apache 2.0

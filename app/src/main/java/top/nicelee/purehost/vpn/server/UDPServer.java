@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import top.nicelee.purehost.vpn.LocalVpnService;
+import top.nicelee.purehost.vpn.config.ConfigReader;
 import top.nicelee.purehost.vpn.dns.DnsPacket;
 import top.nicelee.purehost.vpn.dns.Question;
 import top.nicelee.purehost.vpn.dns.ResourcePointer;
@@ -112,10 +113,13 @@ public class UDPServer implements Runnable {
 			}
 		} catch (SocketException e) {
 			//e.printStackTrace();
+			//ConfigReader.writeHost(e.toString());
 		}catch (IOException e) {
 			//e.printStackTrace();
+			//ConfigReader.writeHost(e.toString());
 		} catch (Exception e) {
 			//e.printStackTrace();
+			//ConfigReader.writeHost(e.toString());
 		} finally {
 			// 关闭socket
 			System.out.println("UDPServer: udpServer已关闭");
