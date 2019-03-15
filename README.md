@@ -19,16 +19,20 @@
 ![](https://raw.githubusercontent.com/nICEnnnnnnnLee/PureHost/master/view/function-preview.jpg)
 
 ## 更新日志
+* v3.0
+    修复了一个bug, 该bug导致处理某些非DNS查询的UDP包时功能会出现异常
 * v2.0
-    * 增加基础域名匹配
+    * 增加基础域名匹配(全域名匹配优先任意匹配)  
     e.g. host文件
     ```
+    127.0.0.3 www.test.com
     127.0.0.1 *.test.com
     127.0.0.2 test.test.com
     ```
     那么，
     ```
     test.test.com --> 127.0.0.2
+    www.test.com --> 127.0.0.3
     test.com --> 127.0.0.1
     123.test.com --> 127.0.0.1
     xxx.test.com --> 127.0.0.1

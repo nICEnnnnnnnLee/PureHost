@@ -212,41 +212,46 @@ public class LocalVpnService extends VpnService implements Runnable {
                 //if (ipHeader.getSourceIP() == intLocalIP  && udpHeader.getSourcePort() != udpServer.port) {
                 if (ipHeader.getDestinationIP() != CommonMethods.ipStringToInt(udpServer.localIP)){
                     {
-                        m_DNSBuffer.clear();
-                        m_DNSBuffer.limit(ipHeader.getDataLength() - 8);
-                        DnsPacket dnsPacket = DnsPacket.FromBytes(m_DNSBuffer);
-                        //Short dnsId = dnsPacket.Header.getID();
 
-                        boolean isNeedPollution = false;
-                        Question question = dnsPacket.Questions[0];
-                        //System.out.printf("DNS 查询的地址是%s \r\n", question.Domain);
-                        String ipAddr = ConfigReader.domainIpMap.get(question.Domain);
-                        if (ipAddr != null) {
-                            isNeedPollution = true;
-                        }else{
-                            Matcher matcher = ConfigReader.patternRootDomain.matcher(question.Domain);
-                            if(matcher.find()){
-                                //System.out.printf("DNS 查询的地址根目录是%s \r\n", matcher.group(1));
-                                ipAddr = ConfigReader.rootDomainIpMap.get(matcher.group(1));
-                                if (ipAddr != null){
-                                    isNeedPollution = true;
+                        try{
+                            m_DNSBuffer.clear();
+                            m_DNSBuffer.limit(ipHeader.getDataLength() - 8);
+                            DnsPacket dnsPacket = DnsPacket.FromBytes(m_DNSBuffer);
+                            //Short dnsId = dnsPacket.Header.getID();
+
+                            boolean isNeedPollution = false;
+                            Question question = dnsPacket.Questions[0];
+                            //System.out.printf("DNS 查询的地址是%s \r\n", question.Domain);
+                            String ipAddr = ConfigReader.domainIpMap.get(question.Domain);
+                            if (ipAddr != null) {
+                                isNeedPollution = true;
+                            }else{
+                                Matcher matcher = ConfigReader.patternRootDomain.matcher(question.Domain);
+                                if(matcher.find()){
+                                    //System.out.printf("DNS 查询的地址根目录是%s \r\n", matcher.group(1));
+                                    ipAddr = ConfigReader.rootDomainIpMap.get(matcher.group(1));
+                                    if (ipAddr != null){
+                                        isNeedPollution = true;
+                                    }
                                 }
                             }
-                        }
-                        if(isNeedPollution){
-                            createDNSResponseToAQuery(udpHeader.m_Data, dnsPacket, ipAddr);
+                            if(isNeedPollution){
+                                createDNSResponseToAQuery(udpHeader.m_Data, dnsPacket, ipAddr);
 
-                            ipHeader.setTotalLength(20 + 8 + dnsPacket.Size);
-                            udpHeader.setTotalLength(8 + dnsPacket.Size);
+                                ipHeader.setTotalLength(20 + 8 + dnsPacket.Size);
+                                udpHeader.setTotalLength(8 + dnsPacket.Size);
 
-                            ipHeader.setSourceIP(dstIP);
-                            udpHeader.setSourcePort(dstPort);
-                            ipHeader.setDestinationIP(originIP);
-                            udpHeader.setDestinationPort(originPort);
+                                ipHeader.setSourceIP(dstIP);
+                                udpHeader.setSourcePort(dstPort);
+                                ipHeader.setDestinationIP(originIP);
+                                udpHeader.setDestinationPort(originPort);
 
-                            CommonMethods.ComputeUDPChecksum(ipHeader, udpHeader);
-                            vpnOutput.write(ipHeader.m_Data, ipHeader.m_Offset, ipHeader.getTotalLength());
-                            break;
+                                CommonMethods.ComputeUDPChecksum(ipHeader, udpHeader);
+                                vpnOutput.write(ipHeader.m_Data, ipHeader.m_Offset, ipHeader.getTotalLength());
+                                break;
+                            }
+                        }catch (Exception e){
+                            System.out.println("当前udp包不是DNS报文");
                         }
                     }
                     if(NATSessionManager.getSession(originPort) == null){
