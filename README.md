@@ -1,5 +1,7 @@
 # PureHost
-一个免Root实现类似PC端Host功能的app 
+一个免Root实现类似PC端Host功能的app。   
+该项目VpnService部分只拦截了必要的UDP报文，对TCP的处理请参考[freedom4NG](https://github.com/nICEnnnnnnnLee/freedom4NG)
+
 
 ## 下载
 [PureHost](https://github.com/nICEnnnnnnnLee/PureHost/releases)
